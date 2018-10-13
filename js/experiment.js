@@ -8,6 +8,7 @@ const menuL3File = "./data/menu_depth_3.csv"
 
 // Global variables
 var menu;
+var participantId = null;
 var trialsData = [];
 var numTrials = 0;
 var currentTrial = 1;
@@ -104,7 +105,6 @@ function nextTrial() {
 		tracker.trial = currentTrial;
 		tracker.menuType = menuType;
 		tracker.menuDepth = menuDepth;
-		tracker.inputMethod = inputMethod;
 		tracker.targetItem = targetItem;
 
 		if (menuType === "Marking") {
