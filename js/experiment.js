@@ -39,20 +39,20 @@ function getData(relativePath) {
 function initExperiment() {
 
 	// Get Trails
-	var data = getData("./data/experiments.csv");
+	var data = getData(trialsFile);
 
 	var records = data.split("\n");
 	numTrials = records.length - 1;
 	for (var i = 1; i <= numTrials; i++) {
 		var cells = records[i].split(",");
 		var menuType = cells[0].trim();
-		var inputMethod = cells[1].trim();
-		var menuDepth = cells[2].trim();
+		var menuDepth = cells[1].trim();
+		var inputMethod = cells[2].trim();
 		var targetItem = cells[3].trim();
 		trialsData[i] = {
 			'Menu Type': menuType,
-			'Input Method': inputMethod,
 			'Menu Depth': menuDepth,
+			'Input Method': inputMethod,
 			'Target Item': targetItem
 		};
 	}
@@ -88,14 +88,14 @@ function nextTrial() {
 	if (currentTrial <= numTrials) {
 
 		var menuType = trialsData[currentTrial]['Menu Type'];
-		var inputMethod = trialsData[currentTrial]['Input Method'];
 		var menuDepth = trialsData[currentTrial]['Menu Depth'];
+		var inputMethod = trialsData[currentTrial]['Input Method'];
 		var targetItem = trialsData[currentTrial]['Target Item'];
 
 		document.getElementById("trialNumber").innerHTML = String(currentTrial) + "/" + String(numTrials);
 		document.getElementById("menuType").innerHTML = menuType;
-		document.getElementById("inputMethod").innerHTML = inputMethod;
 		document.getElementById("menuDepth").innerHTML = menuDepth;
+		document.getElementById("inputMethod").innerHTML = inputMethod;
 		document.getElementById("targetItem").innerHTML = targetItem;
 		document.getElementById("selectedItem").innerHTML = "&nbsp;";
 		// Set IV3 state over here
@@ -103,8 +103,8 @@ function nextTrial() {
 		tracker.newTrial();
 		tracker.trial = currentTrial;
 		tracker.menuType = menuType;
-		tracker.inputMethod = inputMethod;
 		tracker.menuDepth = menuDepth;
+		tracker.inputMethod = inputMethod;
 		tracker.targetItem = targetItem;
 
 		if (menuType === "Marking") {
