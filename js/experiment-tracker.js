@@ -1,12 +1,10 @@
-// Class used to track experiment
-function count_clicks(clicks) {
-	return clicks
-}
+
 
 class ExperimentTracker {
 
 
 	constructor() {
+		this.participantNo = 0;
 		this.trials = [];
 		this.attempt = 0;
 		this.trial = null;
@@ -24,13 +22,10 @@ class ExperimentTracker {
 	resetTimers(){
 		this.startTime = null;
 		this.endTime = null;
-		this.clicks = 0;
 	}
 
 	startTimer() {
 		this.startTime = Date.now();
-		this.clicks = 0;
-		this.countClicks();
 	}
 
 	recordSelectedItem(selectedItem) {
@@ -38,20 +33,16 @@ class ExperimentTracker {
 		this.stopTimer();
 	}
 
-	countClicks() {
-		
-		function getCountClicks() {
-			this.clicks ++;
-		}
-		document.onclick = getCountClicks
+	addClick() {
+		this.clicks++;
 	}
 
 	stopTimer() {
-		
 		this.endTime = Date.now();
-		this.trials.push([this.trial, this.attempt, this.menuType, this.menuDepth, this.inputMethod, this.targetItem, this.selectedItem, this.startTime, this.endTime, count_clicks(this.clicks)])
+		this.trials.push([this.participantNo, this.trial, this.attempt, this.menuType, this.menuDepth, this.inputMethod, this.targetItem, this.selectedItem, this.startTime, this.endTime, this.clicks])
 		this.resetTimers();
 		this.attempt++;
+		this.clicks = 0;
 
 	}
 

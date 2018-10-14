@@ -8,7 +8,6 @@ const menuL3File = "./data/menu_depth_3.csv"
 
 // Global variables
 var menu;
-var participantNo = null;
 var trialsData = [];
 var numTrials = 0;
 var currentTrial = 1;
@@ -23,9 +22,8 @@ var tracker = new ExperimentTracker();
 var markingMenuSubscription = null;
 var radialMenuSvg = null;
 
-
-
-
+var urlParams = new URLSearchParams(window.location.search);
+var participantNo = urlParams.get('participant-id');
 
 // Load CSV files from data and return text
 function getData(relativePath) {
@@ -38,11 +36,10 @@ function getData(relativePath) {
 
 // Loads the CSV data files on page load and store it to global variables
 function initExperiment() {
-
 	// Get Trails
 	var data = getData(trialsFile);
 
-	var records = data.split("\n");
+	var records = data.split("\r");
 	numTrials = records.length - 1;
 	for (var i = 1; i <= numTrials; i++) {
 		var cells = records[i].split(",");
@@ -79,13 +76,10 @@ function initExperiment() {
 function loadNextTrial(e){
 	e.preventDefault();
 	nextTrial();
-	
 }
 
 // Move to next trai and record events
 function nextTrial() {
-
-	
 	if (currentTrial <= numTrials) {
 
 		var menuType = trialsData[currentTrial]['Menu Type'];
@@ -216,7 +210,7 @@ function formatMarkingMenuData(data) {
 
 // Function to start tracking timer on mouse down
 function markingMenuOnMouseDown(){
-
+	tracker.addClick();
 	tracker.startTimer();
 }
 
@@ -252,9 +246,14 @@ function initializeRadialMenu(){
 	var interactionContainer = document.getElementById('interaction-container');
 	var radialMenuContainer = document.getElementById('radial-menu-container');
 	if(radialMenuContainer == null){
-		interactionContainer.innerHTML += "<div id=\"radial-menu-container\" style=\"height:100%;width:100%\" oncontextmenu=\"toggleRadialMenu(event)\"></div>";
+		interactionContainer.innerHTML += "<div id=\"radial-menu-container\" style=\"height:100%;width:100%\" oncontextmenu=\"toggleRadialMenu(event)\" onmousedown=\"radialMenuOnMouseDown()\"></div>";
 	}
 
+}
+
+function radialMenuOnMouseDown(){
+	tracker.addClick();
+	tracker.startTimer();
 }
 
 // Create radial menu svg element
