@@ -1,4 +1,8 @@
 // Class used to track experiment
+function count_clicks(clicks) {
+	return clicks
+}
+
 class ExperimentTracker {
 
 
@@ -14,15 +18,19 @@ class ExperimentTracker {
 		this.selectedItem = null;
 		this.startTime = null;
 		this.endTime = null;
+		this.clicks = 0;
 	}
 	
 	resetTimers(){
 		this.startTime = null;
 		this.endTime = null;
+		this.clicks = 0;
 	}
 
 	startTimer() {
 		this.startTime = Date.now();
+		this.clicks = 0;
+		this.countClicks();
 	}
 
 	recordSelectedItem(selectedItem) {
@@ -30,10 +38,18 @@ class ExperimentTracker {
 		this.stopTimer();
 	}
 
+	countClicks() {
+		
+		function getCountClicks() {
+			this.clicks ++;
+		}
+		document.onclick = getCountClicks
+	}
+
 	stopTimer() {
 		
 		this.endTime = Date.now();
-		this.trials.push([this.trial, this.attempt, this.menuType, this.menuDepth, this.inputMethod, this.targetItem, this.selectedItem, this.startTime, this.endTime])
+		this.trials.push([this.trial, this.attempt, this.menuType, this.menuDepth, this.inputMethod, this.targetItem, this.selectedItem, this.startTime, this.endTime, count_clicks(this.clicks)])
 		this.resetTimers();
 		this.attempt++;
 
@@ -44,7 +60,7 @@ class ExperimentTracker {
 	}
 
 	toCsv() {
-		var csvFile = "Trial,Attempt,Menu Type,Menu Depth,Input Method,Target Item,Selected Item,Start Time, End Time\n";
+		var csvFile = "Participant No, Trial,Attempt,Menu Type,Menu Depth,Input Method,Target Item,Selected Item,Start Time, End Time, Clicks\n";
 		for (var i = 0; i < this.trials.length; i++) {
 			csvFile += this.trials[i].join(',');
 			csvFile += "\n";

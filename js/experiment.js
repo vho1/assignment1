@@ -8,9 +8,9 @@ const menuL3File = "./data/menu_depth_3.csv"
 
 // Global variables
 var menu;
-var participantId = null;
+var participantNo = null;
 var trialsData = [];
-var numTrials = 36;
+var numTrials = 0;
 var currentTrial = 1;
 var markingMenuL1 = [];
 var markingMenuL2 = [];
@@ -102,6 +102,7 @@ function nextTrial() {
 		// Set IV3 state over here
 
 		tracker.newTrial();
+		tracker.participantNo = participantNo;
 		tracker.trial = currentTrial;
 		tracker.menuType = menuType;
 		tracker.menuDepth = menuDepth;
